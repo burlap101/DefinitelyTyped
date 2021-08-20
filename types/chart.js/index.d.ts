@@ -29,6 +29,7 @@
 //                 Mathias Helminger <https://github.com/Ilmarinen100>
 //                 Mostafa Sameti <https://github.com/IVIosi>
 //                 Samar Mohan <https://github.com/samarmohan>
+//                 Joseph Crowley <https://github.com/burlap101>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
 
@@ -88,7 +89,7 @@ declare class Chart {
     };
 
     static scaleService: {
-        updateScaleDefaults: (type: Chart.ScaleType, updates: Chart.ChartScales) => void;
+        updateScaleDefaults: (type: Chart.ScaleType, updates: Chart.ChartScale) => void;
     };
 
     // Tooltip Static Options
@@ -133,8 +134,8 @@ interface MetaData {
     _model: Model;
     _start?: any;
     _view: Model;
-    _xScale: Chart.ChartScales;
-    _yScale: Chart.ChartScales;
+    _xScale: Chart.ChartScale;
+    _yScale: Chart.ChartScale;
     hidden?: boolean | undefined;
 }
 
@@ -312,7 +313,7 @@ declare namespace Chart {
         elements?: ChartElementsOptions | undefined;
         layout?: ChartLayoutOptions | undefined;
         scale?: RadialLinearScale | undefined;
-        scales?: ChartScales | LinearScale | LogarithmicScale | TimeScale | undefined;
+        scales?: ChartScales | undefined;
         showLines?: boolean | undefined;
         spanGaps?: boolean | undefined;
         cutoutPercentage?: number | undefined;
@@ -748,7 +749,10 @@ declare namespace Chart {
         weight?: number | undefined;
     }
 
-    interface ChartScales {
+    interface ChartScales{
+        [index: string]: ChartScale | LinearScale | LogarithmicScale | TimeScale;
+    }
+    interface ChartScale {
         type?: ScaleType | string | undefined;
         display?: boolean | undefined;
         position?: PositionType | string | undefined;
@@ -796,11 +800,11 @@ declare namespace Chart {
     interface ChartYAxe extends CommonAxe {
     }
 
-    interface LinearScale extends ChartScales {
+    interface LinearScale extends ChartScale {
         ticks?: LinearTickOptions | undefined;
     }
 
-    interface LogarithmicScale extends ChartScales {
+    interface LogarithmicScale extends ChartScale {
         ticks?: LogarithmicTickOptions | undefined;
     }
 
@@ -820,7 +824,7 @@ declare namespace Chart {
         date?: object | undefined;
     }
 
-    interface TimeScale extends ChartScales {
+    interface TimeScale extends ChartScale {
         adapters?: DateAdapterOptions | undefined;
         displayFormats?: TimeDisplayFormat | undefined;
         isoWeekday?: boolean | undefined;
